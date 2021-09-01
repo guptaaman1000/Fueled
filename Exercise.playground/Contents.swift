@@ -39,3 +39,7 @@ import Foundation
 /*:
 4. Finally, use your calculated metric to find the 3 most engaging bloggers, sort order, and output the result.
 */
+
+let userList = try JSONDecoder().decode([User].self, from: Resource.users.data())
+let postList = try JSONDecoder().decode([Post].self, from: Resource.posts.data())
+let commentList = try JSONDecoder().decode([Comment].self, from: Resource.comments.data())
