@@ -43,3 +43,16 @@ import Foundation
 let userList = try JSONDecoder().decode([User].self, from: Resource.users.data())
 let postList = try JSONDecoder().decode([Post].self, from: Resource.posts.data())
 let commentList = try JSONDecoder().decode([Comment].self, from: Resource.comments.data())
+
+var postCommentMapping = [Int: Int]() // [postID: totalComments]
+var userPostCommentMapping = [Int: (Int, Int)]() // [userId: (totalPosts, totalComments)]
+
+for comment in commentList {
+    let totalComments = (postCommentMapping[comment.postId] ?? 0) + 1
+    postCommentMapping[comment.postId] = totalComments
+}
+
+for post in postList {
+    let (totalPosts, totalComments) = userPostCommentMapping[post.userId] ?? (0, 0)
+    userPostCommentMapping[post.userId] = (totalPosts + 1, totalComments + (postCommentMapping[post.id] ?? 0))
+}
